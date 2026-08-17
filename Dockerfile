@@ -1,16 +1,15 @@
 # Folosim o imagine de bază Python
-FROM python:3.9-slim
+#si acest fisier a fost modificat la sugestia chatgpt
+#practic foloseste requirements.txt sa instaleze dependintele
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Instalăm dependențele necesare
-RUN pip install streamlit xarray netCDF4 matplotlib copernicusmarine numpy dask
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiem tot codul sursă în container
-COPY . /app
+COPY . .
 
-# Expunem portul pentru interfața web Streamlit
 EXPOSE 8501
 
-# Comanda de start pentru aplicație
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]

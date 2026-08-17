@@ -1,23 +1,39 @@
-# app.py
+#varianta asta e cea imbunatatia de chat gpt, a plecat de la app.py
 import streamlit as st
 import xarray as xr
 import matplotlib.pyplot as plt
 
-st.title("Monitorizarea Adâncimii Secchi - Marea Neagră")
-st.write("Aplicație bazată pe modelul ZhongPing Lee (2015) folosind date CMEMS.")
+st.set_page_config(
+    page_title="Secchi Depth – Black Sea",
+    layout="wide"
+)
 
-# Încărcăm datele procesate
-@st.cache_data
+st.title("Secchi Depth – Black Sea")
+st.write(
+    "Secchi Depth estimated from Copernicus Marine remote-sensing "
+    "reflectance using the Lee et al. methodology."
+)
+
+@st.cache_resource
 def load_data():
     return xr.open_dataset("data/output/zsd_black_sea_today.nc")
 
 ds = load_data()
 
-# Crearea graficului cu matplotlib
-fig, ax = plt.subplots(figsize=(10, 6))
-# Selectăm harta 2D folosind squeeze pentru a elimina dimensiunea timpului
-plot = ds['Secchi_Depth_m'].squeeze().plot(ax=ax, cmap='viridis', vmin=0, vmax=20)
-plt.title("Adâncimea Secchi (m)")
+zsd = ds["ZSD"].squeeze()
 
-# Afișăm graficul în pagina de Streamlit
-st.pyplot(fig)
+fig, ax = plt.subplots(figsize=(12, 7))
+
+zsd.plot(
+    ax=ax,
+    cmap="viridis",
+    vmin=0,
+    vmax=20,
+    cbar_kwargs={"label": "Secchi Depth (m)"}
+)
+
+ax.set_title("Secchi Depth – Black Sea")
+ax.set_xlabel("Longitude")
+ax.set_ylabel("Latitude")
+
+st.pyplot(fig, use_container_width=True)
