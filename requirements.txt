@@ -1,5 +1,0 @@
-streamlit
-xarray
-matplotlib
-netCDF4
-dask
