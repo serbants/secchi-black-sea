@@ -9,14 +9,19 @@ st.set_page_config(
 )
 
 st.title("Secchi Depth – Black Sea")
+
 st.write(
     "Secchi Depth estimated from Copernicus Marine remote-sensing "
     "reflectance using the Lee et al. methodology."
 )
 
+
 @st.cache_resource
 def load_data():
-    return xr.open_dataset("data/output/zsd_black_sea_today.nc")
+    return xr.open_dataset(
+        "data/output/zsd_black_sea_today.nc"
+    )
+
 
 ds = load_data()
 

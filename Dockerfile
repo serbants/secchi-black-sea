@@ -1,11 +1,13 @@
 # Folosim o imagine de bază Python
 #si acest fisier a fost modificat la sugestia chatgpt
 #practic foloseste requirements.txt sa instaleze dependintele
+
 FROM python:3.11-slim
 
 WORKDIR /app
 
 COPY requirements.txt .
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
